@@ -7,21 +7,33 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <!-- below script is for google chart js -->
+    <style>
+      .myRect {
+        fill: steelblue;
+      }
+      .toolTip {
+        position: absolute;
+        display: none;
+        min-width: 80px;
+        height: auto;
+        background: none repeat scroll 0 0 #ffffff;
+        border: 1px solid #6f257f;
+        padding: 14px;
+        text-align: center;
+      }
+    </style>
+
+    <!-- google chart js -->
     <script
       type="text/javascript"
       src="https://www.gstatic.com/charts/loader.js"
     ></script>
-    <!-- below script is for d3.js  -->
-    <script src="https://d3js.org/d3.v4.js"></script>
-    <title>Indian Export-import Dashboard</title>
 
-    <!-- Custom fonts for this template-->
-    <link
-      href="vendor/fontawesome-free/css/all.min.css"
-      rel="stylesheet"
-      type="text/css"
-    />
+    <!-- d3 script -->
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+
+    <title>business dashboard</title>
+
     <link
       href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
       rel="stylesheet"
@@ -47,7 +59,7 @@
           <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
           </div>
-          <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+          <div class="sidebar-brand-text mx-3">Business Dashboard</div>
         </a>
 
         <!-- Divider -->
@@ -65,33 +77,19 @@
         <hr class="sidebar-divider" />
 
         <!-- Heading -->
-        <div class="sidebar-heading">Interface</div>
+        <div class="sidebar-heading">Charts</div>
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
           <a
             class="nav-link collapsed"
-            href="#"
-            data-toggle="collapse"
+            href="#export-country-bar"
             data-target="#collapseTwo"
             aria-expanded="true"
             aria-controls="collapseTwo"
           >
-            <i class="fas fa-fw fa-cog"></i>
-            <span>Components</span>
+            <span>import export</span>
           </a>
-          <div
-            id="collapseTwo"
-            class="collapse"
-            aria-labelledby="headingTwo"
-            data-parent="#accordionSidebar"
-          >
-            <div class="bg-white py-2 collapse-inner rounded">
-              <h6 class="collapse-header">Custom Components:</h6>
-              <a class="collapse-item" href="buttons.html">Buttons</a>
-              <a class="collapse-item" href="cards.html">Cards</a>
-            </div>
-          </div>
         </li>
 
         <!-- Nav Item - Utilities Collapse Menu -->
@@ -197,11 +195,12 @@
               class="d-sm-flex align-items-center justify-content-between mb-4"
             >
               <h1 class="h3 mb-0 text-gray-800">
-                Export-import Dashboard(Year 2021-22)
+                Export-import (Year 2021-22)
               </h1>
             </div>
+            <!-- page heading end -->
 
-            <!-- Content Row -->
+            <!-- heading details -->
             <div class="row">
               <!-- Earnings (Monthly) Card Example -->
               <div class="col-xl-3 col-md-6 mb-4">
@@ -282,12 +281,13 @@
                 </div>
               </div>
             </div>
+            <!-- heading details end -->
 
-            <!-- Content Row -->
+            <!-- geo-graphical chart -->
 
-            <div class="row">
+            <div class="row justify-content-center">
               <!-- Geographical Chart -->
-              <div class="col-xl-6 col-lg-6">
+              <div class="col-xl-6 col-lg-12">
                 <div class="card shadow mb-4">
                   <!-- Card Header - Dropdown -->
                   <div
@@ -306,7 +306,7 @@
               </div>
 
               <!-- Pie Chart -->
-              <div class="col-xl-6 col-lg-6">
+              <div class="col-xl-6 col-lg-12">
                 <div class="card shadow mb-4">
                   <!-- Card Header - Dropdown -->
                   <div
@@ -324,11 +324,12 @@
                 </div>
               </div>
             </div>
+            <!-- end of geo-graphical chart -->
 
-            <!-- Content Row -->
+            <!-- export and import country chart  -->
             <div class="row">
               <!-- Content Column -->
-              <div class="col-lg-6 mb-4">
+              <div class="col-xl-6 col-lg-12 mb-4">
                 <!-- Project Card Example -->
                 <div class="card shadow mb-4">
                   <div class="card-header py-3">
@@ -342,12 +343,12 @@
                 </div>
               </div>
 
-              <div class="col-lg-6 mb-4">
+              <div class="col-xl-6 col-lg-12 mb-4">
                 <!-- Illustrations -->
                 <div class="card shadow mb-4">
                   <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">
-                      Illustrations
+                      Import : Top 5 Country
                     </h6>
                   </div>
                   <div class="card-body">
@@ -356,6 +357,40 @@
                 </div>
               </div>
             </div>
+            <!-- end of export and import country chart -->
+
+            <!-- export and import commudities chart -->
+            <div class="row">
+              <!-- Content Column -->
+              <div class="col-xl-6 col-lg-6 mb-4">
+                <!-- Project Card Example -->
+                <div class="card shadow mb-4">
+                  <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                      Exports Top 5 Principal Commodities
+                    </h6>
+                  </div>
+                  <div class="card-body">
+                    <div id="export-Commodities-bar"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-6 col-lg-6 mb-4">
+                <!-- Illustrations -->
+                <div class="card shadow mb-4">
+                  <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                      Imports Top 5 Principal Commodities
+                    </h6>
+                  </div>
+                  <div class="card-body">
+                    <div id="import-Commodities-bar"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end of export and import commudities chart -->
           </div>
           <!-- /.container-fluid -->
         </div>
@@ -363,11 +398,8 @@
       </div>
     </div>
 
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
+    <script src="js/demo/export_geochart.js"></script>
+    <script src="js/demo/import_geochart.js"></script>
     <script src="js/demo/chart-export-commudities-bar.js"></script>
     <script src="js/demo/chart-import-commudities-bar.js"></script>
     <script src="js/demo/chart-export-country-bar.js"></script>

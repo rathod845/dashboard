@@ -1,64 +1,33 @@
-var margin = { top: 20, right: 30, bottom: 40, left: 90 },
-  width = 460 - margin.left - margin.right,
-  height = 400 - margin.top - margin.bottom;
+google.charts.load("current", { packages: ["bar"] });
+google.charts.setOnLoadCallback(drawStuff);
 
-// append the svg object to the body of the page
-var svg = d3
-  .select("#export-country-bar")
-  .append("svg")
-  .attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-var tooltip = d3.select("body").append("div").attr("class", "toolTip");
+function drawStuff() {
+  var data = new google.visualization.arrayToDataTable([
+    ["countryname", "Export"],
+    ["U S A", 81106.34],
+    ["U ARAB EMTS", 29868.38],
+    ["CHINA P RP", 22490.21],
+    ["BANGLADESH PR", 18180.15],
+    ["NETHERLAND", 13288.05],
+  ]);
 
-// Parse the Data
-d3.csv("Imports Top 5 Countries.csv", function (data) {
-  // Add X axis
-  var x = d3.scaleLinear().domain([0, 110000]).range([0, width]);
-  svg
-    .append("g")
-    .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(x))
-    .selectAll("text")
-    .attr("transform", "translate(-10,0)rotate(-45)")
-    .style("text-anchor", "end");
+  var options = {
+    title: "export country",
+    width: 400,
+    height: 300,
+    legend: { position: "none" },
+    chart: {},
+    bars: "horizontal", // Required for Material Bar Charts.
+    axes: {
+      x: {
+        0: { side: "top", label: "USD dollar" }, // Top x-axis.
+      },
+    },
+    bar: { groupWidth: "90%" },
+  };
 
-  // Y axis
-  var y = d3
-    .scaleBand()
-    .range([0, height])
-    .domain(
-      data.map(function (d) {
-        return d.countryname;
-      })
-    )
-    .padding(0.1);
-  svg.append("g").call(d3.axisLeft(y));
-
-  //Bars
-  svg
-    .selectAll("myRect")
-    .data(data)
-    .enter()
-    .append("rect")
-    .attr("x", x(0))
-    .attr("y", function (d) {
-      return y(d.countryname);
-    })
-    .attr("width", function (d) {
-      return x(d.Import);
-    })
-    .attr("height", y.bandwidth())
-    .attr("fill", "#69b3a2")
-    .on("mousemove", function (d) {
-      tooltip
-        .style("left", d3.event.pageX - 50 + "px")
-        .style("top", d3.event.pageY - 70 + "px")
-        .style("display", "inline-block")
-        .html(d.countryname + "<br>" + "£" + d.Import);
-    })
-    .on("mouseout", function (d) {
-      tooltip.style("display", "none");
-    });
-});
+  var chart = new google.charts.Bar(
+    document.getElementById("export-country-bar")
+  );
+  chart.draw(data, options);
+}
